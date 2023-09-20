@@ -1,0 +1,41 @@
+server:
+  port: 8085
+spring:
+  application:
+    name: API-GATEWAY
+    
+  cloud:
+      gateway:
+        routes:
+              - id:  USER-SERVICE
+                uri: lb://USER-SERVICE
+                predicates:
+                - Path=/users/** 
+                
+              - id:  HOTEL-SERVICE
+                uri: lb://HOTEL-SERVICE
+                predicates:
+                - Path=/hotels/** ,/staffs/**  #agr sbhi service ko api ka url se acces krna h toh use this  /**
+                        
+              - id:  RATING-SERVICE
+                uri: lb://RATING-SERVICE
+                predicates:
+                - Path=/ratings/**      
+    
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka    
+      
+    #okta configuration for api gateway  
+okta:
+  oauth2:
+    issuer: https://dev-58948983.okta.com/oauth2/default
+    audience: api://default
+    client-id: 0oabcjb1ykhPPE41u5d7
+    client-secret: aVIZEKNuWNXxe2MtmnSLJFlRCJwDiPdKG4Av5e7n0U9M6slB0K1w3zo0PA1J4uYT
+    scopes: openid, profile, email, offline_access        

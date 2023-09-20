@@ -1,0 +1,30 @@
+package com.lcwd.user.service.config;
+
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizedClientManager;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
+import org.springframework.web.client.RestTemplate;
+@Configuration
+public class MyConfig {
+
+	//to use RestTemplate thats why we create a @bean
+	@Bean                     //thats mean wo kam karne ka liya service ka name use krega
+	@LoadBalanced        //hum as arestTemplate banana cha rhe h jo load ko balance krle thats mean ek se jyada instance ko distribute krna
+	public RestTemplate restTemplate()
+	{
+		return new RestTemplate();
+	}	
+	
+	//declare the bean of OAuth2AuthorizedClientManager manager
+	@Bean
+	public OAuth2AuthorizedClientManager manager(
+			ClientRegistrationRepository clientRegistrationRepository,
+			OAuth2AuthorizedClientRepository auth2AuthorizedClientRepository)
+	{
+		    DefaultOAuth2AuthorizedClientManager defaultOAuth2AuthorizedClientManager = new DefaultOAuth2AuthorizedClientManager(clientRegistrationRepository, auth2AuthorizedClientRepository);
+		        return defaultOAuth2AuthorizedClientManager;
+	}
+}

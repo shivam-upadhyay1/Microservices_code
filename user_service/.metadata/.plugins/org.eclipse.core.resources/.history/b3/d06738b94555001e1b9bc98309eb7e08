@@ -1,0 +1,17 @@
+package com.lcwd.user.service.config;
+
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.client.RestTemplate;
+@Configuration
+public class MyConfig {
+
+	//to use RestTemplate thats why we create a @bean
+	@Bean                     //thats mean wo kam karne ka liya service ka name use krega
+	@LoadBalanced        //hum as arestTemplate banana cha rhe h jo load ko balance krle thats mean ek se jyada instance ko distribute krna
+	public RestTemplate restTemplate()
+	{
+		return new RestTemplate();
+	}	
+}
